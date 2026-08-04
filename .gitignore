@@ -13,3 +13,6 @@ __pycache__/
 
 # User uploads
 uploads/
+
+## for personal testing
+test.py

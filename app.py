@@ -1,6 +1,7 @@
 import streamlit as st
 from utils.data_loader import load_data
 from utils.data_analysis import analyze_df
+from utils.col_analysis import column_analysis
 
 st.set_page_config(page_title="AI Analytics Platform", page_icon="📊", layout="wide")
 
@@ -29,6 +30,16 @@ if data_file is not None:
         col3.metric("Missing Values", analysis["missing"])
         col4.metric("Duplicates", analysis["duplicates"])
         col5.metric("Memory Usage", f'{analysis["memory"]} MB')
+
+        st.subheader("📋 Column Analysis")
+        #column analysis
+        
+        col_analysis_df = column_analysis(df)
+        st.dataframe(col_analysis_df)
+
+
+        
+
 
 
     else:
