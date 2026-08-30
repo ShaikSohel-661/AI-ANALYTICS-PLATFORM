@@ -1,10 +1,6 @@
-import os 
-from google import genai
-from dotenv import load_dotenv
 import json
+from utils.ai_models import generate_solution
 
-load_dotenv()
-client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # CLEANING OPERATIONS
 
@@ -257,33 +253,29 @@ def clean_data(df, instructions):
                 }}
             ]
         }}
+    Return ONLY raw valid JSON.
 
+    Do NOT use Markdown.
+    Do NOT wrap the response in ```json or ```.
+    Do NOT include explanations, comments, or any text before or after the JSON.
+    The first character of your response must be {{ and the last character must be }}.
 
     """
 
     try:
-        response = client.models.generate_content(
-            model="gemini-flash-latest",
-            contents= prompt
-        )
-        print("=" * 50)
-        print("GEMINI RAW RESPONSE:")
-        print(repr(response.text))
-        print("=" * 50)
-        cleaning_plan = json.loads(response.text)
+        response_text = generate_solution(prompt)
+        if response_text is None:
+            raise ValueError("No response from AI model.")
+    
+        cleaning_plan = json.loads(response_text)
 
         for operation in cleaning_plan["operations"]:
-            print("Executing:", operation)
-
             df = apply_operation(df, operation)
 
-    
-
         return df
+
     except Exception as exc:
         print("Cleaning error:", exc)
-        print(type(exc).__name__)
-        print(exc)
         raise
         
 

@@ -16,6 +16,14 @@ data_file = st.file_uploader("Upload your CSV or Excel file", type=["csv", "xlsx
 if data_file is not None:
     df = load_data(data_file)
     if df is not None:
+        if (
+            "uploaded_file_name" not in st.session_state
+            or st.session_state.uploaded_file_name != data_file.name
+        ):
+            st.session_state.uploaded_file_name = data_file.name
+            st.session_state.cleaned_df = df.copy()
+            st.session_state.has_cleaned = False
+
         st.success("File uploaded successfully! ✅")
         st.dataframe(df)
 
@@ -57,9 +65,7 @@ if data_file is not None:
         }
         </style>
         """, unsafe_allow_html=True)
-        
-        if "cleaned_df" not in st.session_state:
-            st.session_state.cleaned_df = df.copy()
+
 
         if st.button("Generate AI Summary"):
             with st.spinner("Analyzing your dataset..."):
@@ -84,14 +90,18 @@ if data_file is not None:
 
                 if cleaned_df is not None:
                     st.session_state.cleaned_df = cleaned_df
+                    st.session_state.has_cleaned = True
                     st.success("Cleaning completed successfully.")
-                    st.subheader("🧹 Cleaned Dataset")
-                    st.dataframe(st.session_state.cleaned_df)
+            
                 else:
                     st.error("Data cleaning failed.")
 
             else:
                 st.warning("Please enter cleaning instructions.")
+
+        if st.session_state.get("has_cleaned", False):
+            st.subheader("🧹Cleaned Dataset")
+            st.dataframe(st.session_state.cleaned_df)
                     
 
     else:
