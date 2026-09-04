@@ -1,21 +1,4 @@
-import os
-
-from dotenv import load_dotenv
-from google import genai
-import sys
-
-print("Python:", sys.executable)
-print("GenAI module:", genai.__file__)
-
-load_dotenv()
-
-
-def get_client():
-    api_key = os.getenv("GOOGLE_API_KEY") 
-    if not api_key:
-        raise ValueError("Missing GOOGLE_API_KEY in the environment.")
-    return genai.Client(api_key=api_key)
-
+from utils.ai_models import generate_solution
 
 def _format_column_info(column_info):
     if hasattr(column_info, "to_dict"):
@@ -48,19 +31,11 @@ def summarize_data(context):
     5. Suggest useful analyses or visualizations.
     """
 
-    try:
-        client = get_client()
-        response = client.models.generate_content(
-            model="gemini-flash-latest",
-            contents=prompt,
-        )
-        return getattr(response, "text", "Unable to generate summary.")
-    except Exception as exc:
-        return f"Unable to generate AI summary: {exc}"
+    response_text = generate_solution(prompt)
 
+    if response_text is None:
+        return "Unable to generate AI summary."
 
-def clean_data(df, instructions):
-    print(f"User instructions: {instructions}")
-    print(f"DataFrame shape before cleaning: {df.shape}")
-    return df
+    return response_text
+
 
