@@ -102,9 +102,14 @@ if data_file is not None:
         if st.session_state.get("has_cleaned", False):
             st.subheader("🧹Cleaned Dataset")
             st.dataframe(st.session_state.cleaned_df)
+
+        if st.button("📊 Visualize Data"):
+            st.switch_page("pages/visualization.py")
                     
 
     else:
         st.error("Failed to load the data. Please check the file format and try again.")
+
+
 
 
