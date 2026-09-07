@@ -1,4 +1,4 @@
-# AI Analytics Platform
+# INLYTICS
 
 AI Analytics Platform is a Streamlit application I'm building to make basic data analysis easier using AI.
 

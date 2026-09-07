@@ -6,9 +6,9 @@ from utils.ai_summary import summarize_data
 from utils.data_loader import load_data
 from utils.data_cleaning import clean_data
 
-st.set_page_config(page_title="AI Analytics Platform", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Inlytic", page_icon="📊", layout="wide")
 
-st.title("AI Analytics Platform 📊")
+st.title("Inlytic 📊")
 
 
 data_file = st.file_uploader("Upload your CSV or Excel file", type=["csv", "xlsx"])
