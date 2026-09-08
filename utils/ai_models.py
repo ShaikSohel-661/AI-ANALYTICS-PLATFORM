@@ -45,6 +45,7 @@ def generate_solution(prompt):
         return gemnini_response
     mistral_response = generate_with_mistral(prompt)
     if mistral_response is not None:
+        print("Using Mistral response as fallback.")
         return mistral_response
     return None
 

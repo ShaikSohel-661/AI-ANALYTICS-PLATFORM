@@ -8,7 +8,8 @@ from utils.data_cleaning import clean_data
 
 st.set_page_config(page_title="Inlytic", page_icon="📊", layout="wide")
 
-st.title("Inlytic 📊")
+st.title("Inlytic")
+st.caption("Analyze, clean and visualize your data")
 
 
 data_file = st.file_uploader("Upload your CSV or Excel file", type=["csv", "xlsx"])
@@ -24,20 +25,22 @@ if data_file is not None:
             st.session_state.cleaned_df = df.copy()
             st.session_state.has_cleaned = False
 
-        st.success("File uploaded successfully! ✅")
-        st.dataframe(df)
+        st.success("File uploaded successfully")
+        st.divider()
+        st.subheader("Dataset Preview")
+        st.dataframe(df, use_container_width=True)
 
         analysis = analyze_df(df)
 
-        st.subheader("📊 Dataset Overview")
+        st.subheader("Dataset Overview")
         col1, col2, col3, col4, col5 = st.columns(5)
         col1.metric("Rows", analysis["rows"])
         col2.metric("Columns", analysis["columns"])
         col3.metric("Missing Values", analysis["missing"])
         col4.metric("Duplicates", analysis["duplicates"])
         col5.metric("Memory Usage", f'{analysis["memory"]} MB')
-
-        st.subheader("📋 Column Analysis")
+        st.divider()
+        st.subheader("Column Analysis")
         col_analysis_df = column_analysis(df)
         st.dataframe(col_analysis_df)
 
@@ -65,7 +68,8 @@ if data_file is not None:
         }
         </style>
         """, unsafe_allow_html=True)
-
+        st.divider()
+        st.subheader("AI Summary")
 
         if st.button("Generate AI Summary"):
             with st.spinner("Analyzing your dataset..."):
@@ -74,10 +78,11 @@ if data_file is not None:
             if ai_summary.startswith("Unable to generate AI summary"):
                 st.error(ai_summary)
             else:
-                st.subheader("📝 Dataset Summary")
+                st.subheader("Dataset Summary")
                 st.markdown(ai_summary)
-        
 
+        st.divider()
+        st.subheader("Data Cleaning")
         
         instructions = st.text_area("Tell me how you want to clean the data")
 
@@ -100,10 +105,10 @@ if data_file is not None:
                 st.warning("Please enter cleaning instructions.")
 
         if st.session_state.get("has_cleaned", False):
-            st.subheader("🧹Cleaned Dataset")
+            st.subheader("Cleaned Dataset")
             st.dataframe(st.session_state.cleaned_df)
-
-        if st.button("📊 Visualize Data"):
+        st.divider()
+        if st.button("Visualize Data"):
             st.switch_page("pages/visualization.py")
                     
 

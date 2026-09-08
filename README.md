@@ -1,6 +1,6 @@
-# INLYTICS
+# INGLYTICS
 
-AI Analytics Platform is a Streamlit application I'm building to make basic data analysis easier using AI.
+INGLYTICS is a Streamlit application I'm building to make basic data analysis easier using AI.
 
 Users can upload a CSV or Excel file, inspect the dataset, get an AI-generated summary, clean the data using natural language instructions, and visualize the data.
 
@@ -57,7 +57,6 @@ The page uses the latest version of the dataset, so if the user cleans the data 
 * Matplotlib
 * Google Gemini API
 * Mistral API
-* OpenPyXL
 
 ## Project Structure
 

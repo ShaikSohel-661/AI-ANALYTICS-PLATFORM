@@ -34,7 +34,7 @@ def summarize_data(context):
     response_text = generate_solution(prompt)
 
     if response_text is None:
-        return "Unable to generate AI summary."
+        return "AI summary is temporarily unavailable. Dataset analysis and visualization are still available."
 
     return response_text
 
